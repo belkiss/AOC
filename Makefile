@@ -1,5 +1,5 @@
 CXX := clang++
-CXXFLAGS := -std=c++20 -Wall -Wextra -Werror -Wno-unused-function
+CXXFLAGS := -std=c++20 -g -Wall -Wextra -Werror -Wno-unused-function
 
 # Colors
 GREEN := \033[1;32m
