@@ -11,6 +11,7 @@
 #include <set>
 #include <vector>
 
+// clang-format off
 #define ENABLE_LOG 1
 #if ENABLE_LOG
     #define LogDebug(inFormat, ...) Debug(__FILE__, __LINE__, inFormat, ##__VA_ARGS__)
@@ -60,6 +61,7 @@ static void Error(const char* inFile, const int inLine, const char* inFormat, ..
     va_end(args);
     printf("\n");
 }
+// clang-format on
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -109,11 +111,8 @@ public:
         std::reverse(m_operations.begin(), m_operations.end());
     }
 
-    void addOperation(Operations operation)
-    {
-        m_operations.emplace_back(operation);
-    }
-    
+    void addOperation(Operations operation) { m_operations.emplace_back(operation); }
+
     uint64_t getResult() const
     {
         uint64_t total = 0;
@@ -122,19 +121,19 @@ public:
             uint64_t result = 0;
             switch (m_operations[i])
             {
-                case Operations::Add:
-                    for (const auto& inputValues : m_inputs[i])
-                    {
-                        result += inputValues;
-                    }
-                    break;
-                case Operations::Multiply:
-                    result = 1;
-                    for (const auto& inputValues : m_inputs[i])
-                    {
-                        result *= inputValues;
-                    }
-                    break;
+            case Operations::Add:
+                for (const auto& inputValues : m_inputs[i])
+                {
+                    result += inputValues;
+                }
+                break;
+            case Operations::Multiply:
+                result = 1;
+                for (const auto& inputValues : m_inputs[i])
+                {
+                    result *= inputValues;
+                }
+                break;
             }
             total += result;
         }
@@ -172,7 +171,7 @@ int main()
 
         if (currentChar == '\r')
             continue;
-        
+
         if (currentChar == '\n')
         {
             if (!line.empty())
@@ -183,7 +182,7 @@ int main()
             }
             continue;
         }
-        
+
         if (currentChar == (uint8_t)Operations::Add || currentChar == (uint8_t)Operations::Multiply)
         {
             foundOperations = true;
@@ -195,11 +194,11 @@ int main()
             line.push_back(currentChar);
     }
     while (file);
-    
+
     problems.addProblems(lines, maxLength);
 
     const uint64_t result = problems.getResult();
-    
+
     std::cout << std::setfill('#') << std::setw(100) << "\n";
     std::cout << "Result ==> " << result << std::endl;
 

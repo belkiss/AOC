@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 
+// clang-format off
 #define ENABLE_LOG 1
 #if ENABLE_LOG
     #define LogDebug(inFormat, ...) Debug(__FILE__, __LINE__, inFormat, ##__VA_ARGS__)
@@ -53,6 +54,7 @@ static void Error(const char* inFile, const int inLine, const char* inFormat, ..
     va_end(args);
     printf("\n");
 }
+// clang-format on
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +65,7 @@ public:
     void setTotal(uint32_t total) { m_total = total; }
 
     void addRoll(uint32_t index) { m_sortedRolls.emplace_back(index); }
-    
+
     uint32_t removeAccessible(uint32_t minSurrounding)
     {
         auto hasValueAtIndex = [this](int index) {
@@ -87,24 +89,32 @@ public:
             const bool isTopRow = i < m_numPerLine;
             const bool isBottom = i >= (m_total - m_numPerLine);
             const int nw = !isTopRow && !isOnLeftBorder ? (i - m_numPerLine - 1) : -1;
-            const int n  = !isTopRow ? (i - m_numPerLine) : -1;
+            const int n = !isTopRow ? (i - m_numPerLine) : -1;
             const int ne = !isTopRow && !isOnRightBorder ? (i - m_numPerLine + 1) : -1;
-            const int w  = !isOnLeftBorder ? (i - 1) : -1;
-            const int e  = !isOnRightBorder ? (i + 1) : -1;
+            const int w = !isOnLeftBorder ? (i - 1) : -1;
+            const int e = !isOnRightBorder ? (i + 1) : -1;
             const int sw = !isBottom && !isOnLeftBorder ? (i + m_numPerLine - 1) : -1;
-            const int s  = !isBottom ? (i + m_numPerLine) : -1;
+            const int s = !isBottom ? (i + m_numPerLine) : -1;
             const int se = !isBottom && !isOnRightBorder ? (i + m_numPerLine + 1) : -1;
-            
+
             uint32_t nbSurrounding = 0;
-            if (hasValueAtIndex(nw)) ++nbSurrounding;
-            if (hasValueAtIndex(n))  ++nbSurrounding;
-            if (hasValueAtIndex(ne)) ++nbSurrounding;
-            if (hasValueAtIndex(w))  ++nbSurrounding;
-            if (hasValueAtIndex(e))  ++nbSurrounding;
-            if (hasValueAtIndex(sw)) ++nbSurrounding;
-            if (hasValueAtIndex(s))  ++nbSurrounding;
-            if (hasValueAtIndex(se)) ++nbSurrounding;
-            
+            if (hasValueAtIndex(nw))
+                ++nbSurrounding;
+            if (hasValueAtIndex(n))
+                ++nbSurrounding;
+            if (hasValueAtIndex(ne))
+                ++nbSurrounding;
+            if (hasValueAtIndex(w))
+                ++nbSurrounding;
+            if (hasValueAtIndex(e))
+                ++nbSurrounding;
+            if (hasValueAtIndex(sw))
+                ++nbSurrounding;
+            if (hasValueAtIndex(s))
+                ++nbSurrounding;
+            if (hasValueAtIndex(se))
+                ++nbSurrounding;
+
             if (nbSurrounding < minSurrounding)
                 toRemove.push_back(i);
         }
@@ -164,7 +174,7 @@ int main()
         }
 
         if (currentChar == '@')
-             grid.addRoll(index);
+            grid.addRoll(index);
         ++index;
     }
     while (file);

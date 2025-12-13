@@ -80,7 +80,7 @@ AllowShortCaseExpressionOnASingleLine: true
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortCompoundRequirementOnASingleLine: true
 AllowShortEnumsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: None
+AllowShortFunctionsOnASingleLine: Inline
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: false
@@ -125,9 +125,9 @@ BreakBeforeInlineASMColon: OnlyMultiline
 BreakBeforeTemplateCloser: false
 BreakBeforeTernaryOperators: true
 BreakBinaryOperations: Never
-BreakConstructorInitializers: BeforeColon
+BreakConstructorInitializers: BeforeComma
 BreakFunctionDefinitionParameters: false
-BreakInheritanceList: BeforeColon
+BreakInheritanceList: BeforeComma
 BreakStringLiterals: true
 BreakTemplateDeclarations: MultiLine
 ColumnLimit:     120
@@ -189,8 +189,8 @@ JavaScriptQuotes: Leave
 JavaScriptWrapImports: true
 KeepEmptyLines:
   AtEndOfFile:     false
-  AtStartOfBlock:  true
-  AtStartOfFile:   true
+  AtStartOfBlock:  false
+  AtStartOfFile:   false
 KeepFormFeed:    false
 LambdaBodyIndentation: Signature
 LineEnding:      DeriveLF
@@ -205,7 +205,7 @@ ObjCBreakBeforeNestedBlockParam: true
 ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: true
 OneLineFormatOffRegex: ''
-PackConstructorInitializers: BinPack
+PackConstructorInitializers: Never
 PenaltyBreakAssignment: 2
 PenaltyBreakBeforeFirstCallParameter: 19
 PenaltyBreakBeforeMemberAccess: 150

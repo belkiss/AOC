@@ -75,15 +75,18 @@ static bool isSafeReport(const std::vector<int>& inValues, bool inLog, bool inLo
             {
                 if (diff < 0)
                 {
-                    LogError("Current report '%s' is not safe because not all are %s!", toString(inValues).c_str(), increasing ? "increasing" : "decreasing");
+                    LogError("Current report '%s' is not safe because not all are %s!", toString(inValues).c_str(),
+                        increasing ? "increasing" : "decreasing");
                 }
                 else if (diff < 1)
                 {
-                    LogError("Current report '%s' is not safe because not all adjacent differ by at least 1: %d != %d", toString(inValues).c_str(), previousValue, value);
+                    LogError("Current report '%s' is not safe because not all adjacent differ by at least 1: %d != %d",
+                        toString(inValues).c_str(), previousValue, value);
                 }
                 else if (diff > 3)
                 {
-                    LogError("Current report '%s' is not safe because not all adjacent differ by at most 3: %d != %d", toString(inValues).c_str(), previousValue, value);
+                    LogError("Current report '%s' is not safe because not all adjacent differ by at most 3: %d != %d",
+                        toString(inValues).c_str(), previousValue, value);
                 }
             }
             break;
@@ -93,7 +96,8 @@ static bool isSafeReport(const std::vector<int>& inValues, bool inLog, bool inLo
     }
     if (safeReport && inLog)
     {
-        std::cout << toString(inValues).c_str() << " => " << (increasing ? "increasing safe" : "decreasing safe") << std::endl;
+        std::cout << toString(inValues).c_str() << " => " << (increasing ? "increasing safe" : "decreasing safe")
+                  << std::endl;
     }
     return safeReport;
 }
@@ -137,17 +141,16 @@ int main()
     do
     {
         std::getline(file, line);
-        auto splitView = std::views::split(line, ' ')
-            | std::views::transform([](const auto& subrange) {
-                int value = 0;
-                std::from_chars_result result = std::from_chars(subrange.data(), subrange.data() + subrange.size(), value);
-                if (result.ec != std::errc())
-                {
-                    LogError("Couldn't parse line");
-                    return -1;
-                }
-                return value;
-            });
+        auto splitView = std::views::split(line, ' ') | std::views::transform([](const auto& subrange) {
+            int value = 0;
+            std::from_chars_result result = std::from_chars(subrange.data(), subrange.data() + subrange.size(), value);
+            if (result.ec != std::errc())
+            {
+                LogError("Couldn't parse line");
+                return -1;
+            }
+            return value;
+        });
 
         std::vector<int> values{splitView.begin(), splitView.end()};
         if (isSafeReport(values, true, false))
@@ -164,7 +167,8 @@ int main()
 
     std::cout << std::setfill('#') << std::setw(100) << "\n";
     std::cout << "Found " << safeReports << " safe report" << (safeReports == 1 ? "" : "s") << std::endl;
-    std::cout << "Found " << safeReportsWithTolerance << " safe report" << (safeReportsWithTolerance == 1 ? " " : "s") << " with tolerance" << std::endl;
+    std::cout << "Found " << safeReportsWithTolerance << " safe report" << (safeReportsWithTolerance == 1 ? " " : "s")
+              << " with tolerance" << std::endl;
 
     return EXIT_SUCCESS;
 }

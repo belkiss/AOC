@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 
+// clang-format off
 #define ENABLE_LOG 1
 #if ENABLE_LOG
     #define LogDebug(inFormat, ...) Debug(__FILE__, __LINE__, inFormat, ##__VA_ARGS__)
@@ -51,6 +52,7 @@ static void Error(const char* inFile, const int inLine, const char* inFormat, ..
     va_end(args);
     printf("\n");
 }
+// clang-format on
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,12 +61,14 @@ class Range
 public:
     Range(uint64_t inStart, uint64_t inEnd)
         : m_start(inStart)
-        , m_end(inEnd) { }
-    
+        , m_end(inEnd)
+    {
+    }
+
     uint64_t getInvalidIds() const
     {
         LogDebug("Range %llu-%llu", m_start, m_end);
-        
+
         uint64_t result = 0;
         for (uint64_t i = m_start; i <= m_end; ++i)
         {
@@ -80,7 +84,6 @@ public:
 private:
     static bool isInvalid(uint64_t inNumber)
     {
-        
         if (inNumber == 0)
             return false;
 
@@ -99,7 +102,7 @@ private:
                         break;
                     }
                 }
-                
+
                 if (!repeatingSeq)
                 {
                     break;
@@ -110,10 +113,10 @@ private:
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     static bool isInvalidTwice(uint64_t inNumber)
     {
         if (inNumber == 0)
@@ -122,14 +125,14 @@ private:
         std::string asString = std::to_string(inNumber);
         if (asString.length() % 2)
             return false;
-        
+
         const int j = asString.length() / 2;
         for (int i = 0; i < j; ++i)
         {
             if (asString[i] != asString[i + j])
                 return false;
         }
-        
+
         return true;
     }
 
@@ -159,7 +162,7 @@ int main()
             currentChar = file.get();
         if (currentChar == EOF)
             break;
-        
+
         auto readNumber = [&] {
             uint64_t number = 0;
             while (std::isdigit(currentChar))
@@ -170,7 +173,7 @@ int main()
             }
             return number;
         };
-        
+
         uint64_t start = readNumber();
         if (currentChar == '-')
             currentChar = file.get();
@@ -179,7 +182,7 @@ int main()
         ranges.emplace_back(start, end);
     }
     while (file);
-    
+
     uint64_t result = 0;
     for (const auto& range : ranges)
     {

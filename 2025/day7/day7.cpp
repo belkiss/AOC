@@ -95,10 +95,7 @@ public:
             LogError("Couldn't insert at index %u", index);
     }
 
-    void addSpaces()
-    {
-        m_items.emplace_back();
-    }
+    void addSpaces() { m_items.emplace_back(); }
 
     void print(uint32_t maxLength) const
     {

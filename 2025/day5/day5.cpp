@@ -10,6 +10,7 @@
 #include <set>
 #include <vector>
 
+// clang-format off
 #define ENABLE_LOG 1
 #if ENABLE_LOG
     #define LogDebug(inFormat, ...) Debug(__FILE__, __LINE__, inFormat, ##__VA_ARGS__)
@@ -59,16 +60,14 @@ static void Error(const char* inFile, const int inLine, const char* inFormat, ..
     va_end(args);
     printf("\n");
 }
+// clang-format on
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 class FreshIngredients
 {
 public:
-    void addRange(uint64_t start, uint64_t end)
-    {
-        m_ranges.emplace_back(start, end);
-    }
+    void addRange(uint64_t start, uint64_t end) { m_ranges.emplace_back(start, end); }
 
     bool isFresh(uint64_t id) const
     {
@@ -77,13 +76,13 @@ public:
             if (id >= range.first && id <= range.second)
                 return true;
         }
-        
+
         return false;
     }
 
     uint64_t numFreshRanges() const
     {
-        std::vector<std::pair<uint64_t,uint64_t>> rangesNoOverlaps;
+        std::vector<std::pair<uint64_t, uint64_t>> rangesNoOverlaps;
         auto sorted = m_ranges;
         std::sort(sorted.begin(), sorted.end(), [](auto a, auto b) { return a.first < b.first; });
 
@@ -109,7 +108,7 @@ public:
             }
             rangesNoOverlaps.emplace_back(range);
         }
-        
+
         uint64_t result = 0;
         for (auto& range : rangesNoOverlaps)
         {
@@ -120,7 +119,7 @@ public:
     }
 
 private:
-    std::vector<std::pair<uint64_t,uint64_t>> m_ranges;
+    std::vector<std::pair<uint64_t, uint64_t>> m_ranges;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -170,7 +169,7 @@ int main()
             }
             return number;
         };
-        
+
         if (!secondPart)
         {
             uint64_t start = readNumber();
@@ -191,7 +190,7 @@ int main()
     while (file);
 
     uint64_t result = ingredients.numFreshRanges();
-    
+
     std::cout << std::setfill('#') << std::setw(100) << "\n";
     std::cout << "Result numFresh ==> " << numFresh << std::endl;
     std::cout << "Result numFreshRanges ==> " << result << std::endl;

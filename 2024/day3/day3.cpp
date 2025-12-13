@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 
+// clang-format off
 #define ENABLE_LOG 1
 #if ENABLE_LOG
     #define LogDebug(inFormat, ...) Debug(__FILE__, __LINE__, inFormat, ##__VA_ARGS__)
@@ -50,6 +51,7 @@ static void Error(const char* inFile, const int inLine, const char* inFormat, ..
     va_end(args);
     printf("\n");
 }
+// clang-format on
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -77,17 +79,17 @@ static States CharToState(char inChar)
 {
     switch (inChar)
     {
-        case 'm': return States::LetterM;
-        case 'u': return States::LetterU;
-        case 'l': return States::LetterL;
-        case 'd': return States::LetterD;
-        case 'o': return States::LetterO;
-        case 'n': return States::LetterN;
-        case 't': return States::LetterT;
-        case ',': return States::Comma;
-        case '(': return States::OpenParenthesis;
-        case ')': return States::CloseParenthesis;
-        case '\'': return States::Quote;
+    case 'm': return States::LetterM;
+    case 'u': return States::LetterU;
+    case 'l': return States::LetterL;
+    case 'd': return States::LetterD;
+    case 'o': return States::LetterO;
+    case 'n': return States::LetterN;
+    case 't': return States::LetterT;
+    case ',': return States::Comma;
+    case '(': return States::OpenParenthesis;
+    case ')': return States::CloseParenthesis;
+    case '\'': return States::Quote;
     }
 
     if (std::isdigit(inChar))
@@ -134,8 +136,7 @@ public:
     StateMachine()
         : m_rootNode(new Node())
     {
-        m_rootNode
-            ->AddNextNode(States::LetterM, 1)
+        m_rootNode->AddNextNode(States::LetterM, 1)
             ->AddNextNode(States::LetterU, 1)
             ->AddNextNode(States::LetterL, 1)
             ->AddNextNode(States::OpenParenthesis, 1)
@@ -144,18 +145,13 @@ public:
             ->AddNextNode(States::Digit, 3)
             ->AddNextNode(States::CloseParenthesis, 1);
 
-        Node* letterONode = m_rootNode
-            ->AddNextNode(States::LetterD, 1)
-            ->AddNextNode(States::LetterO, 1);
+        Node* letterONode = m_rootNode->AddNextNode(States::LetterD, 1)->AddNextNode(States::LetterO, 1);
 
         // do()
-        letterONode
-            ->AddNextNode(States::OpenParenthesis, 1)
-            ->AddNextNode(States::CloseParenthesis, 1);
+        letterONode->AddNextNode(States::OpenParenthesis, 1)->AddNextNode(States::CloseParenthesis, 1);
 
         // don't()
-        letterONode
-            ->AddNextNode(States::LetterN, 1)
+        letterONode->AddNextNode(States::LetterN, 1)
             ->AddNextNode(States::Quote, 1)
             ->AddNextNode(States::LetterT, 1)
             ->AddNextNode(States::OpenParenthesis, 1)
@@ -164,16 +160,14 @@ public:
         m_currentNode = m_rootNode;
     }
 
-    ~StateMachine()
-    {
-        delete m_rootNode;
-    }
+    ~StateMachine() { delete m_rootNode; }
 
     bool Accept(States inState, bool& outEndState)
     {
         if (inState != States::Invalid)
         {
-            if (m_currentNode != m_rootNode && inState == m_currentNode->m_state && ++m_nbTimesCurrentNode <= m_currentNode->m_maxOccurrences)
+            if (m_currentNode != m_rootNode && inState == m_currentNode->m_state &&
+                ++m_nbTimesCurrentNode <= m_currentNode->m_maxOccurrences)
             {
                 return true;
             }

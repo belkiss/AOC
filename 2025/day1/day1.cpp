@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 
+// clang-format off
 #define ENABLE_LOG 1
 #if ENABLE_LOG
     #define LogDebug(inFormat, ...) Debug(__FILE__, __LINE__, inFormat, ##__VA_ARGS__)
@@ -50,6 +51,7 @@ static void Error(const char* inFile, const int inLine, const char* inFormat, ..
     va_end(args);
     printf("\n");
 }
+// clang-format on
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -66,12 +68,10 @@ static Direction CharToDirection(char inChar)
 {
     switch (inChar)
     {
-        case 'l': 
-        case 'L': 
-            return Direction::Left;
-        case 'r':
-        case 'R':
-            return Direction::Right;
+    case 'l':
+    case 'L': return Direction::Left;
+    case 'r':
+    case 'R': return Direction::Right;
     }
 
     return Direction::Invalid;
@@ -87,20 +87,22 @@ public:
         , m_dialSize(dialSize)
         , m_current(m_initValue)
         , m_resultPart1(0)
-        , m_resultPart2(0) { }
+        , m_resultPart2(0)
+    {
+    }
 
     void rotate(Direction direction, int rotations)
     {
         if (rotations == 0)
             return;
-            
+
         const int sign = direction == Direction::Right ? 1 : -1;
         const int total = (m_current + (sign * rotations));
         m_resultPart2 += total <= 0 ? (-total / m_dialSize) + (m_current != 0 ? 1 : 0) : (total / m_dialSize);
         int candidate = total % m_dialSize;
         m_current = candidate < 0 ? m_dialSize + candidate : candidate;
         if (m_current == 0)
-             ++m_resultPart1;
+            ++m_resultPart1;
         LogDebug("  now current: %d, result: %d", m_current, result());
     }
 

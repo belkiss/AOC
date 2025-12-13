@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <charconv>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -25,7 +25,7 @@ int main()
 
     std::vector<int> list1;
     std::vector<int> list2;
-    
+
     std::string line;
     do
     {
@@ -80,7 +80,6 @@ int main()
 
     std::sort(list1.begin(), list1.end());
     std::sort(list2.begin(), list2.end());
-
 
     // part1 result
     {

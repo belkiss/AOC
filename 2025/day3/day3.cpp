@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 
+// clang-format off
 #define ENABLE_LOG 1
 #if ENABLE_LOG
     #define LogDebug(inFormat, ...) Debug(__FILE__, __LINE__, inFormat, ##__VA_ARGS__)
@@ -53,6 +54,7 @@ static void Error(const char* inFile, const int inLine, const char* inFormat, ..
     va_end(args);
     printf("\n");
 }
+// clang-format on
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -68,11 +70,12 @@ public:
             return m_batteries[index1] * 10ull + m_batteries[index2];
         };
         uint64_t candidate = computeCandidate(indexLarge1, indexLarge2);
-        
+
         for (int i = 1, e = m_batteries.size(); i < e; ++i)
         {
             uint8_t current = m_batteries[i];
-            LogDebug("battery %u, %d,%d => %u%u", current, indexLarge1, indexLarge2, m_batteries[indexLarge1], m_batteries[indexLarge2]);
+            LogDebug("battery %u, %d,%d => %u%u", current, indexLarge1, indexLarge2, m_batteries[indexLarge1],
+                m_batteries[indexLarge2]);
             if (current > m_batteries[indexLarge1] && (i + 1) < e)
             {
                 indexLarge1 = i;
@@ -103,14 +106,14 @@ public:
                     indexes[index] = i;
             }
         }
-        
+
         uint64_t result = 0;
         for (int i = 0; i < numToConsider; ++i)
         {
             result *= 10;
             result += m_batteries[indexes[i]];
         }
-        
+
         return result;
     }
     size_t numBatteries() const { return m_batteries.size(); }
@@ -145,10 +148,10 @@ int main()
         int currentChar = file.get();
         if (currentChar == EOF)
             break;
-        
+
         if (currentChar == '\r')
             continue;
-        
+
         if (currentChar == '\n')
         {
             LogDebug("Finished bank, %zu batteries", banks.back().numBatteries());
@@ -180,7 +183,7 @@ int main()
         LogDebug("bank %s, %zu", bank.toString().c_str(), largest);
         result += largest;
     }
-    
+
     std::cout << std::setfill('#') << std::setw(100) << "\n";
     std::cout << "Result ==> " << result << std::endl;
 
